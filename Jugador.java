@@ -1,14 +1,19 @@
-import java.util.Scanner;
-
+/**
+ * Representa a un jugador de la trivia: su nombre y su puntaje acumulado.
+ */
 public class Jugador {
+
+    // ===== Atributos privados (encapsulamiento) =====
     private String nombre;
     private int puntajeActual;
 
+    // ===== Constructor =====
     public Jugador(String nombre) {
         this.nombre = nombre;
-        this.puntajeActual = 0;
+        this.puntajeActual = 0;   // todo jugador arranca con 0 puntos
     }
 
+    // ===== Getters y Setters =====
     public String getNombre() {
         return nombre;
     }
@@ -25,30 +30,20 @@ public class Jugador {
         this.puntajeActual = puntajeActual;
     }
 
-    public boolean responderPregunta(Scanner scanner, Pregunta pregunta)
-            throws RespuestaInvalidaException {
-        System.out.println(pregunta.getEnunciado());
-        for (int i = 0; i < pregunta.getOpciones().size(); i++) {
-            System.out.println((i + 1) + ". " + pregunta.getOpciones().get(i).getTexto());
-        }
+    // ===== Métodos propios =====
 
-        System.out.print("Respuesta de " + nombre + ": ");
-        String entrada = scanner.nextLine().trim();
-        int indice;
-        try {
-            indice = Integer.parseInt(entrada);
-        } catch (NumberFormatException excepcion) {
-            throw new RespuestaInvalidaException("Debes ingresar un numero de opcion.");
-        }
-
-        boolean correcta = pregunta.esRespuestaCorrecta(indice);
-        if (correcta) {
-            puntajeActual += pregunta.getNivelDificultad() * 10;
-        }
-        return correcta;
+    /** Suma puntos al puntaje actual del jugador. */
+    public void sumarPuntos(int puntos) {
+        this.puntajeActual += puntos;
     }
 
-    public int obtenerPuntaje() {
-        return puntajeActual;
+    /** Vuelve el puntaje a 0 (se usa al empezar una partida nueva). */
+    public void reiniciarPuntaje() {
+        this.puntajeActual = 0;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " - " + puntajeActual + " pts";
     }
 }
